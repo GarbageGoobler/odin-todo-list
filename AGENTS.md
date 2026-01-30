@@ -73,5 +73,3 @@ Add persistence using the Web Storage API:
 - Inspect saved data in DevTools: Application tab → Local Storage
 - `localStorage` uses JSON format
 - You cannot store functions in JSON - figure out how to add methods back to your objects after fetching
-
-## Good luck!
