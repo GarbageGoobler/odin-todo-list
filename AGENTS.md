@@ -56,6 +56,8 @@ The UI is up to you, but must support:
 - Expand a single todo to see/edit its details
 - Delete a todo
 
+**Color Reference**: See `docs/catpuccin-color-guide.md` for Catppuccin Mocha color palette and usage guidelines.
+
 ### Inspiration
 
 Check out these great todo apps for design ideas:

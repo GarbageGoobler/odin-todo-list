@@ -8,58 +8,68 @@ export class Todo {
   #notes
   #priority
   #isComplete
+  #projectId
 
   constructor(data) {
     this.#id = crypto.randomUUID();
     this.#title = data.title;
     this.#description = data.description || '';
     this.#dueDate = data.dueDate ? this.#stripTime(parseISO(data.dueDate)) : null;
-    this.#priority = this.#checkPriority(data.priority) || 1.0;
+    this.#priority = this.#validatePriority(data.priority);
     this.#notes = data.notes || '';
     this.#isComplete = data.isComplete || false;
+    this.#projectId = data.projectId;
   }
 
   #stripTime(date) {
     return startOfDay(date);
   }
 
-  #checkPriority(priority) {
-    if (typeof priority !== 'number' || priority > 10 || priority < 1) {
-      return null;
+  #validatePriority(priority) {
+    if (typeof priority !== 'number') {
+      throw new Error('Priority must be a number');
+    }
+    if (priority > 10 || priority < 1) {
+      throw new Error('Priority must be between 1 and 10');
     }
     return priority;
   }
 
-  getId() { return this.#id }
+  get id() { return this.#id }
 
-  getTitle() { return this.#title };
-  setTitle(v) { this.#title = v };
+  get title() { return this.#title }
+  set title(v) { this.#title = v }
 
-  getDescription() { return this.#description };
-  setDescription(v) { this.#description = v };
+  get description() { return this.#description }
+  set description(v) { this.#description = v }
 
-  getDueDate() {
+  get dueDate() {
     if (!this.#dueDate) return null;
     return format(this.#dueDate, 'yyyy-MM-dd');
   }
-  setDueDate(v) {
+  set dueDate(v) {
     this.#dueDate = v ? this.#stripTime(parseISO(v)) : null;
   }
+
   daysUntilDue() {
     const today = startOfDay(new Date());
     const days = differenceInDays(this.#dueDate, today);
     return days;
   }
+
   isOverdue() {
     return this.daysUntilDue() < 0;
   }
 
-  getPriority() { return this.#priority };
-  setPriority(v) { this.#priority = this.#checkPriority(v) };
+  get priority() { return this.#priority }
+  set priority(v) { this.#priority = this.#validatePriority(v) }
 
-  getNotes() { return this.#notes };
-  setNotes(v) { this.#notes = v };
+  get notes() { return this.#notes }
+  set notes(v) { this.#notes = v }
 
-  getIsComplete() { return this.#isComplete }
-  toggleIsComplete() { this.#isComplete = !this.#isComplete }
+  get isComplete() { return this.#isComplete }
+  toggleComplete() { this.#isComplete = !this.#isComplete }
+
+  get projectId() { return this.#projectId }
+  set projectId(v) { this.#projectId = v }
 }
