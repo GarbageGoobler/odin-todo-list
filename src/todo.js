@@ -1,3 +1,5 @@
+import { parseISO, startOfDay, differenceInDays, format } from 'date-fns';
+
 export class Todo {
   #id
   #title
@@ -11,28 +13,14 @@ export class Todo {
     this.#id = crypto.randomUUID();
     this.#title = data.title;
     this.#description = data.description || '';
-    this.#dueDate = data.dueDate ? this.#stripTime(new Date(data.dueDate)) : null;
+    this.#dueDate = data.dueDate ? this.#stripTime(parseISO(data.dueDate)) : null;
     this.#priority = this.#checkPriority(data.priority) || 1.0;
     this.#notes = data.notes || '';
     this.#isComplete = data.isComplete || false;
   }
 
   #stripTime(date) {
-    date.setHours(0, 0, 0, 0);
-    return date;
-  }
-
-  #daysUntilDue(date) {
-    if (!date) return null;
-    const today = this.#stripTime(new Date());
-    const diff = date - today;
-    //milliseconds to days
-    return Math.ceil(diff / (1000 * 60 * 60 * 24));
-  }
-
-  #isOverdue(date) {
-    if (!date) return null;
-    return this.#daysUntilDue(date) < 0;
+    return startOfDay(date);
   }
 
   #checkPriority(priority) {
@@ -52,13 +40,18 @@ export class Todo {
 
   getDueDate() {
     if (!this.#dueDate) return null;
-    const year = this.#dueDate.getFullYear();
-    const month = String(this.#dueDate.getMonth() + 1).padStart(2, '0');
-    const day = String(this.#dueDate.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return format(this.#dueDate, 'yyyy-MM-dd');
   }
   setDueDate(v) {
-    this.#dueDate = v ? this.#stripTime(new Date(v)) : null;
+    this.#dueDate = v ? this.#stripTime(parseISO(v)) : null;
+  }
+  daysUntilDue() {
+    const today = startOfDay(new Date());
+    const days = differenceInDays(this.#dueDate, today);
+    return days;
+  }
+  isOverdue() {
+    return this.daysUntilDue() < 0;
   }
 
   getPriority() { return this.#priority };
