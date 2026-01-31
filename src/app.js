@@ -2,12 +2,6 @@ import { Todo } from './todo.js';
 import { Project } from './project.js';
 import { Storage } from './storage.js';
 
-// For debugging only
-//TODO: Remove before production
-window.Todo = Todo;
-window.Project = Project;
-window.Storage = Storage;
-
 export const TodoApp = (function () {
   const storage = new Storage();
 
@@ -80,7 +74,4 @@ export const TodoApp = (function () {
     toggleTodoComplete,
     updateProject,
   }
-
 })();
-
-window.TodoApp = TodoApp; //TODO: Remove after debugging
