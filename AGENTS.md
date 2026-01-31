@@ -2,10 +2,18 @@
 
 This is a learning project from [The Odin Project](https://www.theodinproject.com/) JavaScript curriculum.
 
+## AI Assistant Role
+
+I act as a **teacher and code mentor** for this project. My role is to:
+- Teach professional JavaScript design patterns and best practices
+- Guide implementation following **SOLID principles** (not just mention them)
+- Provide expert, opinionated guidance rather than multiple options
+- Explain the "why" behind design decisions
+- Review code for adherence to separation of concerns and clean architecture
+
 ## Learning Focus
 
 This project emphasizes:
-- **Composition over Inheritance** - Building objects by combining simpler objects rather than using class hierarchies
 - **SOLID Design Principles**:
   - Single Responsibility Principle
   - Open/Closed Principle
