@@ -27,19 +27,26 @@ This project emphasizes:
 **Core Classes:**
 - `src/todo.js` - Todo class with encapsulated state, validation, and date utilities
 - `src/project.js` - Project class with color management and UUID generation
-- `src/app.js` - Main app logic
+- `src/app.js` - Main app logic using module pattern (IIFE) to encapsulate business logic
 
 **Storage Layer:**
-- `src/storage.js` - Storage manager for projects/todos (in-memory storage for now, will add localStorage later)
+- `src/storage.js` - Storage manager for projects/todos (in-memory storage, will add localStorage later)
 
-**Application Entry:**
-- `src/index.js` - Entry point that will connect app logic and the UI.
+**UI Layer:**
+- `src/ui.js` - UI rendering and interaction module (currently being developed)
+- `src/index.js` - Entry point that connects app logic and the UI (currently being developed)
 
 **Configuration:**
 - `src/constants.js` - Application constants like DEFAULT_PROJECT_ID
 
 ### Rendering & Templates**
 - `src/template.html` - HTML template structure for the application
+
+## Current Development Stage
+
+The core backend logic (models and business logic) has been completed using SOLID principles. localStorage is NOT yet implemented. All data persists only in-memory during development.
+
+***Current Focus:*** Building the frontend UI layer in `src/ui.js` and integrating it with the backend to get the MVP functioning.
 
 ## Project Requirements
 
@@ -104,4 +111,3 @@ Add persistence using the Web Storage API:
 - `localStorage` uses JSON format
 - You cannot store functions in JSON - figure out how to add methods back to your objects after fetching
 
-**Current State:** localStorage is NOT yet implemented. All data persists only in-memory during development.
