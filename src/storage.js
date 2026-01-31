@@ -1,6 +1,6 @@
 import { DEFAULT_PROJECT_ID } from './constants.js';
 
-class Storage {
+export class Storage {
   #projects = []
   #todos = []
 
