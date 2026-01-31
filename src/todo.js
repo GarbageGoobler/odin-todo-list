@@ -52,14 +52,14 @@ export class Todo {
     this.#dueDate = v ? this.#stripTime(parseISO(v)) : null;
   }
 
-  daysUntilDue() {
+  get daysUntilDue() {
     const today = startOfDay(new Date());
     const days = differenceInDays(this.#dueDate, today);
     return days;
   }
 
-  isOverdue() {
-    return this.daysUntilDue() < 0;
+  get isOverdue() {
+    return this.daysUntilDue < 0;
   }
 
   get priority() { return this.#priority }
@@ -69,8 +69,28 @@ export class Todo {
   set notes(v) { this.#notes = v }
 
   get isComplete() { return this.#isComplete }
+  set isComplete(v) { this.#isComplete = v }
   toggleComplete() { this.#isComplete = !this.#isComplete }
 
   get projectId() { return this.#projectId }
   set projectId(v) { this.#projectId = v }
+
+  update(data) {
+    const updatable = [
+      'title',
+      'description',
+      'dueDate',
+      'priority',
+      'notes',
+      'isComplete',
+      'projectId'
+    ];
+
+    for (const key of updatable) {
+      if (data[key] !==undefined) {
+        this[key] = data[key];
+      }
+    }
+  }
+
 }

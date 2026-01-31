@@ -1,5 +1,5 @@
 # Odin Project: Todo List Application
-This is a learning project from [The Odin Project](https://www.theodinproject.com/) JavaScript curriculum.
+This is a learning project from [The Odin Project](https://www.theodinproject.com/) JavaScript curriculum where we create a simple Todo List application.
 
 ## AI Assistant Role
 
@@ -19,6 +19,27 @@ This project emphasizes:
   - Liskov Substitution Principle
   - Interface Segregation Principle
   - Dependency Inversion Principle
+
+## Project Structure
+
+### Source Modules (src/)
+
+**Core Classes:**
+- `src/todo.js` - Todo class with encapsulated state, validation, and date utilities
+- `src/project.js` - Project class with color management and UUID generation
+- `src/app.js` - Main app logic
+
+**Storage Layer:**
+- `src/storage.js` - Storage manager for projects/todos (in-memory storage for now, will add localStorage later)
+
+**Application Entry:**
+- `src/index.js` - Entry point that will connect app logic and the UI.
+
+**Configuration:**
+- `src/constants.js` - Application constants like DEFAULT_PROJECT_ID
+
+### Rendering & Templates**
+- `src/template.html` - HTML template structure for the application
 
 ## Project Requirements
 
@@ -82,3 +103,5 @@ Add persistence using the Web Storage API:
 - Inspect saved data in DevTools: Application tab → Local Storage
 - `localStorage` uses JSON format
 - You cannot store functions in JSON - figure out how to add methods back to your objects after fetching
+
+**Current State:** localStorage is NOT yet implemented. All data persists only in-memory during development.

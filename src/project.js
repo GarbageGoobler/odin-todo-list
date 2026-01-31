@@ -16,6 +16,15 @@ export class Project {
   get color() { return this.#color }
   set color(v) { this.#color = v }
 
+  update(data) {
+    const updatable = ['title', 'color'];
+    for (const key of updatable) {
+      if (data[key] !== undefined) {
+        this[key] = data[key];
+      }
+    }
+  }
+
   #getRandomCatpuccinColor() {
     const CATPUCCIN_COLORS = [
       '#f5c2e7',
