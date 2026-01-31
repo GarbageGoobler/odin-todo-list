@@ -1,4 +1,5 @@
 import { parseISO, startOfDay, differenceInDays, format } from 'date-fns';
+import { DEFAULT_PROJECT_ID } from './constants.js';
 
 export class Todo {
   #id
@@ -18,7 +19,7 @@ export class Todo {
     this.#priority = this.#validatePriority(data.priority);
     this.#notes = data.notes || '';
     this.#isComplete = data.isComplete || false;
-    this.#projectId = data.projectId;
+    this.#projectId = data.projectId || DEFAULT_PROJECT_ID;
   }
 
   #stripTime(date) {
