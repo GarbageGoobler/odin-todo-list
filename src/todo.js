@@ -1,32 +1,3 @@
-// Helper functions
-function stripTime(date) {
-  // don't care about hours
-  date.setHours(0, 0, 0, 0);
-  return date;
-}
-
-function daysUntilDue(date) {
-  if (!date) return null;
-
-  const today = stripTime(new Date());
-  const diff = date - today;
-  // milliseconds to days
-  return Math.ceil( diff / (1000 * 60 * 60 * 24));
-}
-
-function isOverdue(date) {
-  if (!date) return null;
-  return daysUntilDue(date) < 0;
-}
-
-function checkPriority(priority) {
-  if (typeof priority !== 'number' || priority > 10 || priority < 1) {
-    return null;
-  }
-  return priority;
-}
-
-// Main Class
 export class Todo {
   #id
   #title
@@ -40,10 +11,35 @@ export class Todo {
     this.#id = crypto.randomUUID();
     this.#title = data.title;
     this.#description = data.description || '';
-    this.#dueDate = data.dueDate ? stripTime(new Date(data.dueDate)) : null;
-    this.#priority = checkPriority(data.priority) || 1.0; //TODO: Add algorithm for better calc
+    this.#dueDate = data.dueDate ? this.#stripTime(new Date(data.dueDate)) : null;
+    this.#priority = this.#checkPriority(data.priority) || 1.0;
     this.#notes = data.notes || '';
     this.#isComplete = data.isComplete || false;
+  }
+
+  #stripTime(date) {
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+
+  #daysUntilDue(date) {
+    if (!date) return null;
+    const today = this.#stripTime(new Date());
+    const diff = date - today;
+    //milliseconds to days
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
+  }
+
+  #isOverdue(date) {
+    if (!date) return null;
+    return this.#daysUntilDue(date) < 0;
+  }
+
+  #checkPriority(priority) {
+    if (typeof priority !== 'number' || priority > 10 || priority < 1) {
+      return null;
+    }
+    return priority;
   }
 
   getId() { return this.#id }
@@ -62,13 +58,11 @@ export class Todo {
     return `${year}-${month}-${day}`;
   }
   setDueDate(v) {
-    this.#dueDate = v ? stripTime(new Date(v)) : null;
+    this.#dueDate = v ? this.#stripTime(new Date(v)) : null;
   }
-  daysUntilDue() { return daysUntilDue(this.#dueDate) };
-  isOverdue() { return isOverdue(this.#dueDate) };
 
   getPriority() { return this.#priority };
-  setPriority(v) { this.#priority = checkPriority(v) };
+  setPriority(v) { this.#priority = this.#checkPriority(v) };
 
   getNotes() { return this.#notes };
   setNotes(v) { this.#notes = v };

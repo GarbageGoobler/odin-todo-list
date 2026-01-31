@@ -1,5 +1,4 @@
 # Odin Project: Todo List Application
-
 This is a learning project from [The Odin Project](https://www.theodinproject.com/) JavaScript curriculum.
 
 ## AI Assistant Role

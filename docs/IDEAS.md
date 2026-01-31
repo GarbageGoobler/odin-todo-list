@@ -26,7 +26,8 @@ Note that we are told to use localStorage to store all todo data so this needs t
 
 The initial project structure can be:
 
-- todo.js - Todo + Project factories
+- todo.js - Todo class
+- project.js - Project class
 - storage.js - Storage layer (in memory first, later localStorage)
 - app.js - main orchestrator (imports classes + storage, coordinates logic)
 
