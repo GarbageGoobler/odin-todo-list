@@ -320,6 +320,7 @@ function createTodoModal() {
   const isCompleteLabel = document.createElement('label');
   isCompleteLabel.textContent = 'Is Complete:';
   isCompleteLabel.className = 'todo-label';
+  isCompleteLabel.setAttribute('for', 'todo-complete');
   
   const todoComplete = document.createElement('input');
   todoComplete.type = 'checkbox';
@@ -333,7 +334,28 @@ function createTodoModal() {
   modalContent.appendChild(createBtn);
 
   createBtn.addEventListener('click', () => {
-    modal.classList.remove('show');
+    const title = todoTitle.value.trim();
+    if (!title) { return }
+
+    TodoApp.addTodo({
+      title: title,
+      description: todoDescription.value.trim(),
+      dueDate: todoDueDate.value || null,
+      priority: parseInt(todoPriority.value, 10),
+      notes: todoNotes.value.trim(),
+      projectId: todoProject.value,
+      isComplete: todoComplete.checked,
+    });
+
+    todoTitle.value = '';
+    todoDescription.value = '';
+    todoDueDate.value = '';
+    todoPriority.value = '1';
+    todoNotes.value = '';
+    todoProject.value = TodoApp.getCurrentProjectId();
+    todoComplete.checked = false;
+
+    hideModal(modal);
   });
   
   modalContent.appendChild(title);
