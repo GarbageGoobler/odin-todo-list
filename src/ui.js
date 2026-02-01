@@ -1,6 +1,8 @@
 import { TodoApp } from './app.js';
 import { DEFAULT_PROJECT_ID, CATPUCCIN_COLORS } from './constants.js';
 
+window.TodoApp = TodoApp; // TODO: Remove after debugging
+
 // add deafult project
 TodoApp.addProject({ id: DEFAULT_PROJECT_ID, title: 'All Projects'});
 
@@ -47,10 +49,6 @@ function createSidebar() {
 
 function createMainContent() {
   const main = document.createElement('main');
-
-  const sidebarText = document.createElement('p');
-  sidebarText.textContent = 'Test';
-  main.appendChild(sidebarText);
   return main;
 }
 
@@ -103,6 +101,8 @@ function createProjectModal() {
   modalContent.appendChild(closeBtn);
 
   closeBtn.addEventListener('click', () => {
+    modalColorSelectionRemover(colorSelector); 
+    projectInput.value = '';
     modal.classList.remove('show');
   });
   
@@ -123,13 +123,24 @@ function createProjectModal() {
   
   const colorSelector = document.createElement('div');
   colorSelector.className = 'color-selector';
-  
+
   CATPUCCIN_COLORS.forEach(color => {
     const colorOption = document.createElement('div');
     colorOption.className = 'color-option';
     colorOption.style.backgroundColor = color;
     colorOption.dataset.color = color;
     colorSelector.appendChild(colorOption);
+  });
+
+  let selectedColor = CATPUCCIN_COLORS[0]; // Default color
+  colorSelector.addEventListener('click', (event) => {
+    if (event.target.classList.contains('color-option')) {
+      // Remove selected from all
+      modalColorSelectionRemover(colorSelector); 
+    // Add selected to clicked
+    event.target.classList.add('selected');
+    selectedColor = event.target.dataset.color;
+   }
   });
   
   modalContent.appendChild(title);
@@ -143,9 +154,34 @@ function createProjectModal() {
   createBtn.className = 'create-project-btn';
   createBtn.type = 'button';
   modalContent.appendChild(createBtn);
+
+  createBtn.addEventListener('click', () => {
+    const projectName = projectInput.value.trim();
+    if (!projectName) { return }
+
+    TodoApp.addProject({
+      title: projectName,
+      color: selectedColor,
+    });
+    // Refresh dropdown
+    const selector = document.querySelector('#project-selector');
+    selector.innerHTML = '';
+    addProjectsToSelector(selector);
+    
+    // Reset and close
+    projectInput.value = '';
+    modalColorSelectionRemover(colorSelector); 
+    hideModal(modal);
+  });
   
   modal.appendChild(modalContent);
   return modal;
+}
+
+function modalColorSelectionRemover(colorSelector) {
+  colorSelector.querySelectorAll('.color-option').forEach(opt => {
+    opt.classList.remove('selected');
+  });
 }
 
 function hideModal(modalElement) {
