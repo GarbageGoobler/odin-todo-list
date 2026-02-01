@@ -71,7 +71,7 @@ header h1:hover {
 .project-selector-container {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   width: 100%;
   max-width: 280px;
 }
@@ -133,6 +133,52 @@ header h1:hover {
 }
 
 .add-project-btn:active {
+  transform: translateY(0);
+}
+
+.add-todo-btn {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e1e2e;
+  background: linear-gradient(90deg, #a6e3a1 0%, #94e2d5 50%, #89b4fa 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.add-todo-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(166, 227, 161, 0.4);
+  background: linear-gradient(90deg, #b5e8b2 0%, #a3e3e6 50%, #98c4f9 100%);
+}
+
+.add-todo-btn:active {
+  transform: translateY(0);
+}
+
+.delete-project-btn {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e1e2e;
+  background: linear-gradient(90deg, #fab387 0%, #f38ba8 50%, #eba0ac 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.delete-project-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(251, 179, 135, 0.4);
+  background: linear-gradient(90deg, #ffc39f 0%, #f48d98 50%, #f5b1b7 100%);
+}
+
+.delete-project-btn:active {
   transform: translateY(0);
 }
 

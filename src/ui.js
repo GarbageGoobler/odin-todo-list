@@ -25,7 +25,6 @@ export function RenderApp() {
       showModal(projectModal);
     }
   });
-
   renderTodoList(TodoApp.getTodos);
 }
 
@@ -84,8 +83,18 @@ function createProjectSelector() {
   addBtn.textContent = '+ Add Project';
   addBtn.className = 'add-project-btn';
 
+  const addTodoBtn = document.createElement('button');
+  addTodoBtn.textContent = '+ Add Todo';
+  addTodoBtn.className = 'add-todo-btn';
+
+  const deleteProjectBtn = document.createElement('button');
+  deleteProjectBtn.textContent = '🗑️ Delete Project';
+  deleteProjectBtn.className = 'delete-project-btn';
+
   container.appendChild(select);
+  container.appendChild(addTodoBtn);
   container.appendChild(addBtn);
+  container.appendChild(deleteProjectBtn);
   return container;
 }
 
