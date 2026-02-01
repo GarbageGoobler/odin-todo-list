@@ -23,6 +23,16 @@ export function RenderApp() {
   sidebar.addEventListener('click', (event) => {
     if (event.target.classList.contains('add-project-btn')) {
       showModal(projectModal);
+    } else if (event.target.classList.contains('delete-project-btn')) {
+      const currentProjectId = TodoApp.getCurrentProjectId();
+      if (currentProjectId === DEFAULT_PROJECT_ID) { return }
+      TodoApp.deleteProject(currentProjectId);
+      TodoApp.setCurrentProjectId(DEFAULT_PROJECT_ID);
+      changeSidebarBorder(CATPUCCIN_COLORS[0]);
+      const selector = document.querySelector('#project-selector');
+
+      selector.innerHTML = '';
+      addProjectsToSelector(selector);
     }
   });
   renderTodoList(TodoApp.getTodos);
@@ -42,7 +52,7 @@ function createSidebar() {
   sidebar.className = 'sidebar';
   sidebar.style.borderRight = `4px solid ${CATPUCCIN_COLORS[0]}`;
 
-  const select = createProjectSelector();
+  const select = editTodoProjectLists();
   sidebar.appendChild(select);
 
   return sidebar;
@@ -60,7 +70,7 @@ function changeSidebarBorder(color) {
   }
 }
 
-function createProjectSelector() {
+function editTodoProjectLists() {
   const container = document.createElement('div');
   container.className = 'project-selector-container';
 
