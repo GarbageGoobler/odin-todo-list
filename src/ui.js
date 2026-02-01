@@ -7,11 +7,21 @@ TodoApp.addProject({ id: DEFAULT_PROJECT_ID, title: 'All Projects'});
 export function RenderApp() {
   const app = document.querySelector('#app');
 
-  app.appendChild(createHeader());
-  app.appendChild(createSidebar());
-  app.appendChild(createMainContent());
   const projectModal = createProjectModal();
-  app.appendChild(projectModal)
+  app.appendChild(projectModal);
+
+  app.appendChild(createHeader());
+
+  const sidebar = createSidebar();
+  app.appendChild(sidebar);
+
+  app.appendChild(createMainContent());
+
+  sidebar.addEventListener('click', (event) => {
+    if (event.target.classList.contains('add-project-btn')) {
+      showModal(projectModal);
+    }
+  });
 
   renderTodoList(TodoApp.getTodos);
 }
@@ -138,7 +148,13 @@ function createProjectModal() {
   return modal;
 }
 
-let modalElement = null;
+function hideModal(modalElement) {
+  modalElement.classList.remove('show');
+}
+
+function showModal(modalElement) {
+  modalElement.classList.add('show');
+}
 
 function renderTodoList(todos) {
   return null;
