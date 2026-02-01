@@ -36,6 +36,16 @@ export function RenderApp() {
       selector.innerHTML = '';
       addProjectsToSelector(selector);
     } else if (event.target.classList.contains('add-todo-btn')) {
+      const todoProject = document.querySelector('#todo-project');
+      todoProject.innerHTML = '';
+      const projects = TodoApp.getProjects;
+      projects.forEach(project => {
+        const option = document.createElement('option');
+        option.value = project.id;
+        option.textContent = project.title;
+        todoProject.appendChild(option);
+      });
+
       showModal(todoModal);
     }
   });
