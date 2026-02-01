@@ -10,6 +10,5 @@ export const CATPUCCIN_COLORS = [
   '#94e2d5',
   '#89dceb',
   '#74c7ec',
-  '#89b4fa',
   '#b4befe'
 ];

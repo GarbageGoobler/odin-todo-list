@@ -1,5 +1,5 @@
 import { TodoApp } from './app.js';
-import { DEFAULT_PROJECT_ID } from './constants.js';
+import { DEFAULT_PROJECT_ID, CATPUCCIN_COLORS } from './constants.js';
 
 // add deafult project
 TodoApp.addProject({ id: DEFAULT_PROJECT_ID, title: 'All Projects'});
@@ -10,6 +10,8 @@ export function RenderApp() {
   app.appendChild(createHeader());
   app.appendChild(createSidebar());
   app.appendChild(createMainContent());
+  const projectModal = createProjectModal();
+  app.appendChild(projectModal)
 
   renderTodoList(TodoApp.getTodos);
 }
@@ -74,6 +76,69 @@ function addProjectsToSelector(selectorElement) {
     selectorElement.appendChild(projectElement);
   });
 }
+
+function createProjectModal() {
+  const modal = document.createElement('div');
+  modal.className = 'project-modal'
+
+  const modalContent = document.createElement('div');
+  modalContent.className = 'project-modal-content';
+  
+  const title = document.createElement('h2');
+  title.textContent = 'Add New Project';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '×';
+  closeBtn.className = 'modal-close-btn';
+  modalContent.appendChild(closeBtn);
+
+  closeBtn.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+  
+  const projectLabel = document.createElement('label');
+  projectLabel.textContent = 'Project Name:';
+  projectLabel.className = 'project-label';
+  projectLabel.setAttribute('for', 'project-input');
+  
+  const projectInput = document.createElement('input');
+  projectInput.type = 'text';
+  projectInput.placeholder = 'Project name...';
+  projectInput.className = 'project-input';
+  projectInput.id = 'project-input';
+  
+  const colorLabel = document.createElement('p');
+  colorLabel.textContent = 'Choose a color:';
+  colorLabel.className = 'color-label';
+  
+  const colorSelector = document.createElement('div');
+  colorSelector.className = 'color-selector';
+  
+  CATPUCCIN_COLORS.forEach(color => {
+    const colorOption = document.createElement('div');
+    colorOption.className = 'color-option';
+    colorOption.style.backgroundColor = color;
+    colorOption.dataset.color = color;
+    colorSelector.appendChild(colorOption);
+  });
+  
+  modalContent.appendChild(title);
+  modalContent.appendChild(projectLabel);
+  modalContent.appendChild(projectInput);
+  modalContent.appendChild(colorLabel);
+  modalContent.appendChild(colorSelector);
+  
+  const createBtn = document.createElement('button');
+  createBtn.textContent = 'Create Project';
+  createBtn.className = 'create-project-btn';
+  createBtn.type = 'button';
+  modalContent.appendChild(createBtn);
+  
+  modal.appendChild(modalContent);
+  return modal;
+}
+
+let modalElement = null;
 
 function renderTodoList(todos) {
   return null;
