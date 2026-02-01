@@ -3,20 +3,21 @@ import { DEFAULT_PROJECT_ID, CATPUCCIN_COLORS } from './constants.js';
 
 window.TodoApp = TodoApp; // TODO: Remove after debugging
 
-// add deafult project
-TodoApp.addProject({ id: DEFAULT_PROJECT_ID, title: 'All Projects'});
+// add default project
+TodoApp.addProject({
+  id: DEFAULT_PROJECT_ID,
+  title: 'All Projects',
+  color: CATPUCCIN_COLORS[0]});
 
 export function RenderApp() {
   const app = document.querySelector('#app');
 
   const projectModal = createProjectModal();
-  app.appendChild(projectModal);
-
-  app.appendChild(createHeader());
-
   const sidebar = createSidebar();
-  app.appendChild(sidebar);
 
+  app.appendChild(projectModal);
+  app.appendChild(createHeader());
+  app.appendChild(sidebar);
   app.appendChild(createMainContent());
 
   sidebar.addEventListener('click', (event) => {
@@ -40,6 +41,7 @@ function createHeader() {
 function createSidebar() {
   const sidebar = document.createElement('div');
   sidebar.className = 'sidebar';
+  sidebar.style.borderRight = `4px solid ${CATPUCCIN_COLORS[0]}`;
 
   const select = createProjectSelector();
   sidebar.appendChild(select);
@@ -50,6 +52,13 @@ function createSidebar() {
 function createMainContent() {
   const main = document.createElement('main');
   return main;
+}
+
+function changeSidebarBorder(color) {
+  const sidebar = document.querySelector('.sidebar');
+  if (sidebar) {
+    sidebar.style.borderRight = `4px solid ${color}`;
+  }
 }
 
 function createProjectSelector() {
@@ -64,6 +73,12 @@ function createProjectSelector() {
   const select = document.createElement('select');
   select.id = 'project-selector';
   addProjectsToSelector(select);
+
+  select.addEventListener('change', (e) => {
+    TodoApp.setCurrentProjectId(event.target.value);
+    const currentProject = TodoApp.getProjectById(TodoApp.getCurrentProjectId());
+    changeSidebarBorder(currentProject.color);
+  });
 
   const addBtn = document.createElement('button');
   addBtn.textContent = '+ Add Project';

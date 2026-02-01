@@ -1,9 +1,19 @@
+import { DEFAULT_PROJECT_ID } from './constants.js';
 import { Todo } from './todo.js';
 import { Project } from './project.js';
 import { Storage } from './storage.js';
 
 export const TodoApp = (function () {
   const storage = new Storage();
+  let currentProjectId = DEFAULT_PROJECT_ID;
+
+  function getCurrentProjectId() {
+    return currentProjectId;
+  }
+
+  function setCurrentProjectId(id) {
+    currentProjectId = id;
+  }
 
   function addTodo(data) {
     const todo = new Todo(data);
@@ -63,6 +73,8 @@ export const TodoApp = (function () {
     get getTodos() {
       return storage.allTodos;
     },
+    setCurrentProjectId,
+    getCurrentProjectId,
     getTodoById,
     getProjectById,
     getTodosByProjectId,
