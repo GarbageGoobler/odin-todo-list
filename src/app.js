@@ -73,5 +73,5 @@ export const TodoApp = (function () {
     updateTodo,
     toggleTodoComplete,
     updateProject,
-  }
+  };
 })();

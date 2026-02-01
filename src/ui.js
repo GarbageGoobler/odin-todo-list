@@ -1,4 +1,8 @@
 import { TodoApp } from './app.js';
+import { DEFAULT_PROJECT_ID } from './constants.js';
+
+// add deafult project
+TodoApp.addProject({ id: DEFAULT_PROJECT_ID, title: 'All Projects'});
 
 export function RenderApp() {
   const app = document.querySelector('#app');
@@ -7,7 +11,6 @@ export function RenderApp() {
   app.appendChild(createSidebar());
   app.appendChild(createMainContent());
 
-  //render all todos intitiall
   renderTodoList(TodoApp.getTodos);
 }
 
@@ -24,12 +27,8 @@ function createSidebar() {
   const sidebar = document.createElement('div');
   sidebar.className = 'sidebar';
 
-  const sidebarText = document.createElement('p');
-  sidebarText.textContent = 'Select your project:';
-  sidebar.appendChild(sidebarText);
-
-  //const select = createProjectSelector();
-  //sidebar.appendChild(select);
+  const select = createProjectSelector();
+  sidebar.appendChild(select);
 
   return sidebar;
 }
@@ -44,7 +43,36 @@ function createMainContent() {
 }
 
 function createProjectSelector() {
-  return;
+  const container = document.createElement('div');
+  container.className = 'project-selector-container';
+
+  const label = document.createElement('label');
+  label.textContent = 'Select Project:';
+  label.setAttribute('for', 'project-selector');
+  container.appendChild(label);
+
+  const select = document.createElement('select');
+  select.id = 'project-selector';
+  addProjectsToSelector(select);
+
+  const addBtn = document.createElement('button');
+  addBtn.textContent = '+ Add Project';
+  addBtn.className = 'add-project-btn';
+
+  container.appendChild(select);
+  container.appendChild(addBtn);
+  return container;
+}
+
+function addProjectsToSelector(selectorElement) {
+  const projects = TodoApp.getProjects;
+  projects.forEach( project => {
+    const projectElement = document.createElement('option');
+    projectElement.value = project.id;
+    projectElement.textContent = project.title;
+
+    selectorElement.appendChild(projectElement);
+  });
 }
 
 function renderTodoList(todos) {

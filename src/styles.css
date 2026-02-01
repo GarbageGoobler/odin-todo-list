@@ -68,17 +68,72 @@ header h1:hover {
   background-color: #3e3f52;
 }
 
-.sidebar p {
-  color: #a6adc8;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  transition: color 0.3s ease;
+.project-selector-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 280px;
 }
 
-.sidebar p:hover {
+.project-selector-container label {
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #b4befe;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+#project-selector {
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
   color: #cdd6f4;
+  background-color: #313244;
+  border: 1px solid #585b70;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+#project-selector:hover {
+  border-color: #b4befe;
+  background-color: #3a3d52;
+}
+
+#project-selector:focus {
+  border-color: #89b4fa;
+  box-shadow: 0 0 0 3px rgba(137, 180, 250, 0.15);
+}
+
+#project-selector option {
+  background-color: #313244;
+  color: #cdd6f4;
+  padding: 0.5rem;
+}
+
+.add-project-btn {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e1e2e;
+  background: linear-gradient(90deg, #b4befe 0%, #cba6f7 50%, #f5c2e7 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.add-project-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(180, 190, 254, 0.4);
+  background: linear-gradient(90deg, #c9cfff 0%, #dcb8fa 50%, #f5d4e7 100%);
+}
+
+.add-project-btn:active {
+  transform: translateY(0);
 }
 
 .main {
