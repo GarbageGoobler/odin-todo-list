@@ -365,3 +365,152 @@ header h1:hover {
 .create-project-btn:active {
   transform: translateY(0);
 }
+
+.todo-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(30, 30, 46, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.todo-modal.show {
+  display: flex;
+}
+
+.todo-modal-content {
+  background-color: #313244;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.todo-modal-content h2 {
+  text-align: center;
+  color: #b4befe;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.todo-modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.todo-modal-content::-webkit-scrollbar-thumb {
+  background: #585b70;
+  border-radius: 3px;
+}
+
+.todo-modal-content::-webkit-scrollbar-track {
+  background: none;
+}
+
+.todo-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #b4befe;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.todo-input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  color: #cdd6f4;
+  background-color: #45475a;
+  border: 2px solid #585b70;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.todo-input::placeholder {
+  color: #7f849c;
+}
+
+.todo-input:hover {
+  border-color: #6c7086;
+  background-color: #4a4d62;
+}
+
+.todo-input:focus {
+  border-color: #89b4fa;
+  box-shadow: 0 0 0 4px rgba(137, 180, 250, 0.15);
+}
+
+.todo-input::-webkit-scrollbar {
+  width: 6px;
+}
+
+.todo-input::-webkit-scrollbar-thumb {
+  background: #585b70;
+  border-radius: 3px;
+}
+
+.todo-modal-content::-webkit-scrollbar-track {
+  background: none;
+}
+
+.todo-input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.todo-input[type="date"] {
+  color: #cdd6f4;
+  background-color: #45475a;
+  border: 2px solid #585b70;
+}
+
+.todo-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.todo-input[type="date"]::-moz-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.todo-input[type="date"]:hover {
+  border-color: #6c7086;
+  background-color: #4a4d62;
+}
+
+.todo-input[type="date"]:focus {
+  border-color: #89b4fa;
+  box-shadow: 0 0 0 4px rgba(137, 180, 250, 0.15);
+}
+
+.todo-input[type="date"]::placeholder {
+  color: #7f849c;
+}
+
+.todo-modal-content textarea.todo-input {
+  min-height: 100px;
+  resize: none;
+}
+
+@media (max-width: 768px) {
+  .todo-modal-content {
+    max-width: 350px;
+  }
+}

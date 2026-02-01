@@ -13,9 +13,11 @@ export function RenderApp() {
   const app = document.querySelector('#app');
 
   const projectModal = createProjectModal();
+  const todoModal = createTodoModal();
   const sidebar = createSidebar();
 
   app.appendChild(projectModal);
+  app.appendChild(todoModal);
   app.appendChild(createHeader());
   app.appendChild(sidebar);
   app.appendChild(createMainContent());
@@ -33,6 +35,8 @@ export function RenderApp() {
 
       selector.innerHTML = '';
       addProjectsToSelector(selector);
+    } else if (event.target.classList.contains('add-todo-btn')) {
+      showModal(todoModal);
     }
   });
   renderTodoList(TodoApp.getTodos);
@@ -207,6 +211,137 @@ function createProjectModal() {
     modalColorSelectionRemover(colorSelector); 
     hideModal(modal);
   });
+  
+  modal.appendChild(modalContent);
+  return modal;
+}
+
+function createTodoModal() {
+  const modal = document.createElement('div');
+  modal.className = 'todo-modal'
+
+  const modalContent = document.createElement('div');
+  modalContent.className = 'todo-modal-content';
+  
+  const title = document.createElement('h2');
+  title.textContent = 'Add New Todo';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '×';
+  closeBtn.className = 'modal-close-btn';
+  modalContent.appendChild(closeBtn);
+
+  closeBtn.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+  
+  const titleLabel = document.createElement('label');
+  titleLabel.textContent = 'Title*:';
+  titleLabel.className = 'todo-label';
+  titleLabel.setAttribute('for', 'todo-title');
+  
+  const todoTitle = document.createElement('input');
+  todoTitle.type = 'text';
+  todoTitle.placeholder = 'Todo title...';
+  todoTitle.className = 'todo-input';
+  todoTitle.id = 'todo-title';
+  
+  const descriptionLabel = document.createElement('label');
+  descriptionLabel.textContent = 'Description:';
+  descriptionLabel.className = 'todo-label';
+  descriptionLabel.setAttribute('for', 'todo-description');
+  
+  const todoDescription = document.createElement('textarea');
+  todoDescription.placeholder = 'Add description...';
+  todoDescription.className = 'todo-input';
+  todoDescription.id = 'todo-description';
+  
+  const dueDateLabel = document.createElement('label');
+  dueDateLabel.textContent = 'Due Date:';
+  dueDateLabel.className = 'todo-label';
+  dueDateLabel.setAttribute('for', 'todo-due-date');
+  
+  const todoDueDate = document.createElement('input');
+  todoDueDate.type = 'date';
+  todoDueDate.className = 'todo-input';
+  todoDueDate.id = 'todo-due-date';
+  
+  const priorityLabel = document.createElement('label');
+  priorityLabel.textContent = 'Priority:';
+  priorityLabel.className = 'todo-label';
+  priorityLabel.setAttribute('for', 'todo-priority');
+  
+  const todoPriority = document.createElement('select');
+  todoPriority.className = 'todo-input';
+  todoPriority.id = 'todo-priority';
+  for (let i = 1; i <= 10; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = i;
+    todoPriority.appendChild(option);
+  }
+  
+  const notesLabel = document.createElement('label');
+  notesLabel.textContent = 'Notes:';
+  notesLabel.className = 'todo-label';
+  notesLabel.setAttribute('for', 'todo-notes');
+  
+  const todoNotes = document.createElement('textarea');
+  todoNotes.placeholder = 'Add notes...';
+  todoNotes.className = 'todo-input';
+  todoNotes.id = 'todo-notes';
+  
+  const projectLabel = document.createElement('label');
+  projectLabel.textContent = 'Project:';
+  projectLabel.className = 'todo-label';
+  projectLabel.setAttribute('for', 'todo-project');
+  
+  const todoProject = document.createElement('select');
+  todoProject.className = 'todo-input';
+  todoProject.id = 'todo-project';
+  const projects = TodoApp.getProjects;
+  projects.forEach(project => {
+    const option = document.createElement('option');
+    option.value = project.id;
+    option.textContent = project.title;
+    todoProject.appendChild(option);
+  });
+  
+  const isCompleteLabel = document.createElement('label');
+  isCompleteLabel.textContent = 'Is Complete:';
+  isCompleteLabel.className = 'todo-label';
+  
+  const todoComplete = document.createElement('input');
+  todoComplete.type = 'checkbox';
+  todoComplete.className = 'todo-input';
+  todoComplete.id = 'todo-complete';
+  
+  const createBtn = document.createElement('button');
+  createBtn.textContent = 'Create Todo';
+  createBtn.className = 'create-project-btn';
+  createBtn.type = 'button';
+  modalContent.appendChild(createBtn);
+
+  createBtn.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+  
+  modalContent.appendChild(title);
+  modalContent.appendChild(titleLabel);
+  modalContent.appendChild(todoTitle);
+  modalContent.appendChild(descriptionLabel);
+  modalContent.appendChild(todoDescription);
+  modalContent.appendChild(dueDateLabel);
+  modalContent.appendChild(todoDueDate);
+  modalContent.appendChild(priorityLabel);
+  modalContent.appendChild(todoPriority);
+  modalContent.appendChild(notesLabel);
+  modalContent.appendChild(todoNotes);
+  modalContent.appendChild(projectLabel);
+  modalContent.appendChild(todoProject);
+  modalContent.appendChild(isCompleteLabel);
+  modalContent.appendChild(todoComplete);
+  modalContent.appendChild(createBtn);
   
   modal.appendChild(modalContent);
   return modal;
