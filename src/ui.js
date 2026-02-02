@@ -2,8 +2,6 @@ import { TodoApp } from './app.js';
 import ggImage from './gg.png';
 import { DEFAULT_PROJECT_ID, CATPUCCIN_COLORS } from './constants.js';
 
-window.TodoApp = TodoApp;
-
 export function RenderApp() {
   const app = document.querySelector('#app');
 
