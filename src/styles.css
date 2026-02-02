@@ -577,6 +577,12 @@ header h1:hover {
   box-shadow: 0 14px 32px rgba(17, 17, 27, 0.45);
 }
 
+.main-content .todo-card.completed {
+  opacity: 0.4;
+  filter: grayscale(60%);
+  border-color: #6c7086;
+}
+
 .todo-status {
   width: 10px;
   height: 36px;

@@ -31,6 +31,32 @@ export function RenderApp() {
   app.appendChild(sidebar);
   app.appendChild(mainContent);
 
+  mainContent.addEventListener('click', (event) => {
+    if (!event.target.closest('button')) { return }
+
+    const todoCard = event.target.closest('.todo-card');
+    if (!todoCard) return;
+    
+    const todoId = todoCard.dataset.todoId;
+    if (!todoId) return;
+
+    const action = event.target.classList;
+      
+    if (action.contains('todo-toggle-complete-btn')) {
+      const isComplete = TodoApp.toggleTodoComplete(todoId).isComplete;
+      if (isComplete) {
+        todoCard.classList.add('completed');
+      } else {
+        todoCard.classList.remove('completed');
+      }
+      renderTodoList(TodoApp.getTodosByProjectId(TodoApp.getCurrentProjectId()));
+    }
+    else if (action.contains('todo-edit-btn')) {
+      showModal(todoModal);
+      // TODO: Load todo data into modal for editing
+    }
+  });
+
   sidebar.addEventListener('click', (event) => {
     if (event.target.classList.contains('add-project-btn')) {
       showModal(projectModal);
@@ -473,6 +499,11 @@ function createTodoCard(todo) {
   const todoCardElement = document.createElement('div');
   todoCardElement.className = 'todo-card';
   todoCardElement.dataset.todoId = todo.id;
+
+  if (todo.isComplete) {
+    todoCardElement.classList.add('completed');
+  }
+
   const status = document.createElement('span');
   status.className = 'todo-status';
   status.style.backgroundColor = project?.color || CATPUCCIN_COLORS[0];
