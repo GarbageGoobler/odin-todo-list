@@ -1,11 +1,21 @@
-import { DEFAULT_PROJECT_ID } from './constants.js';
+import { DEFAULT_PROJECT_ID, CATPUCCIN_COLORS } from './constants.js';
 import { Todo } from './todo.js';
 import { Project } from './project.js';
 import { Storage } from './storage.js';
 
 export const TodoApp = (function () {
   const storage = new Storage();
+  storage.load(); // from localStorage
+
   let currentProjectId = DEFAULT_PROJECT_ID;
+
+  if (!storage.getProjectById(DEFAULT_PROJECT_ID)) {
+    storage.addProject(new Project({
+      id: DEFAULT_PROJECT_ID,
+      title: 'Unmarked Projects',
+      color: CATPUCCIN_COLORS[0],
+    }));
+  }
 
   function getCurrentProjectId() {
     return currentProjectId;
@@ -46,24 +56,15 @@ export const TodoApp = (function () {
   }
 
   function updateTodo(id, changes) {
-    const todo = storage.getTodoById(id);
-    if (!todo) return null;
-    todo.update(changes);
-    return todo;
+    return storage.updateTodo(id, changes);
   }
 
   function toggleTodoComplete(id) {
-    const todo = storage.getTodoById(id);
-    if (!todo) return null;
-    todo.toggleComplete();
-    return todo;
+    return storage.toggleTodoComplete(id);
   }
 
   function updateProject(id, changes) {
-    const project = storage.getProjectById(id);
-    if (!project) return null;
-    project.update(changes);
-    return project;
+    return storage.updateProject(id, changes);
   }
 
   return {

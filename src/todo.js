@@ -12,7 +12,7 @@ export class Todo {
   #projectId
 
   constructor(data) {
-    this.#id = crypto.randomUUID();
+    this.#id = data.id || crypto.randomUUID();
     this.#title = data.title;
     this.#description = data.description || '';
     this.#dueDate = data.dueDate ? this.#stripTime(parseISO(data.dueDate)) : null;
@@ -93,4 +93,25 @@ export class Todo {
     }
   }
 
+  // needed for localStorage
+  toPlainObject() {
+    return {
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      dueDate: this.dueDate,
+      notes: this.notes,
+      priority: this.priority,
+      isComplete: this.isComplete,
+      projectId: this.projectId,
+    };
+  }
+
+  static fromPlainObject(data) {
+    const todo = new Todo(data);
+    if (data?.id) {
+      todo.#id = data.id;
+    }
+    return todo;
+  }
 }

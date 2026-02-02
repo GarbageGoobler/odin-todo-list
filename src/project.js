@@ -26,4 +26,20 @@ export class Project {
       }
     }
   }
+  // needed for localStorage
+  toPlainObject() {
+    return {
+      id: this.id,
+      title: this.title,
+      color: this.color,
+    };
+  }
+
+  static fromPlainObject(data) {
+    const project = new Project(data);
+    if (data?.id) {
+      project.#id = data.id;
+    }
+    return project;
+  }
 }
