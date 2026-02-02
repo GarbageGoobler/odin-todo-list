@@ -57,7 +57,7 @@ export function RenderApp() {
       showModal(todoModal);
     }
   });
-  renderTodoList(mainContent, TodoApp.getTodos);
+  renderTodoList(TodoApp.getTodos);
 }
 
 function createHeader() {
@@ -141,10 +141,11 @@ function editTodoProjectLists() {
   select.id = 'project-selector';
   addProjectsToSelector(select);
 
-  select.addEventListener('change', (e) => {
+  select.addEventListener('change', (event) => {
     TodoApp.setCurrentProjectId(event.target.value);
     const currentProject = TodoApp.getProjectById(TodoApp.getCurrentProjectId());
     changeSidebarBorder(currentProject.color);
+    renderTodoList(TodoApp.getTodosByProjectId(TodoApp.getCurrentProjectId()));
   });
 
   const addBtn = document.createElement('button');
@@ -391,15 +392,23 @@ function createTodoModal() {
       isComplete: todoComplete.checked,
     });
 
+    const selectedProjectId = todoProject.value;
+
     todoTitle.value = '';
     todoDescription.value = '';
     todoDueDate.value = '';
     todoPriority.value = '1';
     todoNotes.value = '';
-    todoProject.value = TodoApp.getCurrentProjectId();
+    todoProject.value = selectedProjectId;
     todoComplete.checked = false;
 
     hideModal(modal);
+    TodoApp.setCurrentProjectId(selectedProjectId);
+    const selector = document.querySelector('#project-selector');
+    if (selector) {
+      selector.value = selectedProjectId;
+    }
+    renderTodoList(TodoApp.getTodosByProjectId(selectedProjectId));
   });
   
   modalContent.appendChild(title);
@@ -437,7 +446,12 @@ function showModal(modalElement) {
   modalElement.classList.add('show');
 }
 
-function renderTodoList(mainContentElement, todos) {
+function renderTodoList(todos) {
+  const mainContentElement = document.querySelector('.main-content');
+  mainContentElement.innerHTML = '';
+  const contentHeader = makeContentHeader();
+  mainContentElement.appendChild(contentHeader);
+
   todos.forEach(todo => {
     const todoCard = createTodoCard(todo);
     mainContentElement.appendChild(todoCard);
