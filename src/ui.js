@@ -465,6 +465,7 @@ function createTodoCard(todo) {
 
   const todoCardElement = document.createElement('div');
   todoCardElement.className = 'todo-card';
+  todoCardElement.dataset.todoId = todo.id;
   const status = document.createElement('span');
   status.className = 'todo-status';
   status.style.backgroundColor = project?.color || CATPUCCIN_COLORS[0];
