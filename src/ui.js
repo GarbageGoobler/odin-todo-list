@@ -52,8 +52,10 @@ export function RenderApp() {
       renderTodoList(TodoApp.getTodosByProjectId(TodoApp.getCurrentProjectId()));
     }
     else if (action.contains('todo-edit-btn')) {
+      const todo = TodoApp.getTodoById(todoId);
+      if (!todo) return;
+      setupTodoModalForEdit(todoModal, todo);
       showModal(todoModal);
-      // TODO: Load todo data into modal for editing
     }
   });
 
@@ -72,16 +74,7 @@ export function RenderApp() {
       addProjectsToSelector(selector);
       renderTodoList(TodoApp.getTodosByProjectId(DEFAULT_PROJECT_ID));
     } else if (event.target.classList.contains('add-todo-btn')) {
-      const todoProject = document.querySelector('#todo-project');
-      todoProject.innerHTML = '';
-      const projects = TodoApp.getProjects;
-      projects.forEach(project => {
-        const option = document.createElement('option');
-        option.value = project.id;
-        option.textContent = project.title;
-        todoProject.appendChild(option);
-      });
-
+      setupTodoModalForCreate(todoModal);
       showModal(todoModal);
     }
   });
@@ -308,6 +301,7 @@ function createProjectModal() {
 function createTodoModal() {
   const modal = document.createElement('div');
   modal.className = 'todo-modal'
+  modal.dataset.todoId = '';
 
   const modalContent = document.createElement('div');
   modalContent.className = 'todo-modal-content';
@@ -321,6 +315,7 @@ function createTodoModal() {
   modalContent.appendChild(closeBtn);
 
   closeBtn.addEventListener('click', () => {
+    resetTodoModal(modal);
     modal.classList.remove('show');
   });
   
@@ -416,7 +411,7 @@ function createTodoModal() {
     const title = todoTitle.value.trim();
     if (!title) { return }
 
-    TodoApp.addTodo({
+    const changes = {
       title: title,
       description: todoDescription.value.trim(),
       dueDate: todoDueDate.value || null,
@@ -424,18 +419,18 @@ function createTodoModal() {
       notes: todoNotes.value.trim(),
       projectId: todoProject.value,
       isComplete: todoComplete.checked,
-    });
+    };
 
+    const todoId = modal.dataset.todoId;
     const selectedProjectId = todoProject.value;
 
-    todoTitle.value = '';
-    todoDescription.value = '';
-    todoDueDate.value = '';
-    todoPriority.value = '1';
-    todoNotes.value = '';
-    todoProject.value = selectedProjectId;
-    todoComplete.checked = false;
+    if (todoId) {
+      TodoApp.updateTodo(todoId, changes);
+    } else {
+      TodoApp.addTodo(changes);
+    }
 
+    resetTodoModal(modal, selectedProjectId);
     hideModal(modal);
     TodoApp.setCurrentProjectId(selectedProjectId);
     const selector = document.querySelector('#project-selector');
@@ -464,6 +459,77 @@ function createTodoModal() {
   
   modal.appendChild(modalContent);
   return modal;
+}
+
+function setupTodoModalForCreate(modal) {
+  refreshTodoProjectOptions(modal);
+  resetTodoModal(modal);
+}
+
+function setupTodoModalForEdit(modal, todo) {
+  refreshTodoProjectOptions(modal);
+  modal.dataset.todoId = todo.id;
+  const modalTitle = modal.querySelector('h2');
+  const submitBtn = modal.querySelector('.create-project-btn');
+  if (modalTitle) modalTitle.textContent = 'Edit Todo';
+  if (submitBtn) submitBtn.textContent = 'Save Changes';
+
+  const todoTitle = modal.querySelector('#todo-title');
+  const todoDescription = modal.querySelector('#todo-description');
+  const todoDueDate = modal.querySelector('#todo-due-date');
+  const todoPriority = modal.querySelector('#todo-priority');
+  const todoNotes = modal.querySelector('#todo-notes');
+  const todoProject = modal.querySelector('#todo-project');
+  const todoComplete = modal.querySelector('#todo-complete');
+
+  if (todoTitle) todoTitle.value = todo.title ?? '';
+  if (todoDescription) todoDescription.value = todo.description ?? '';
+  if (todoDueDate) todoDueDate.value = todo.dueDate ?? '';
+  if (todoPriority) todoPriority.value = String(todo.priority ?? 1);
+  if (todoNotes) todoNotes.value = todo.notes ?? '';
+  if (todoProject) todoProject.value = todo.projectId ?? '';
+  if (todoComplete) todoComplete.checked = Boolean(todo.isComplete);
+}
+
+function resetTodoModal(modal, preferredProjectId = '') {
+  modal.dataset.todoId = '';
+  const modalTitle = modal.querySelector('h2');
+  const submitBtn = modal.querySelector('.create-project-btn');
+  if (modalTitle) modalTitle.textContent = 'Add New Todo';
+  if (submitBtn) submitBtn.textContent = 'Create Todo';
+
+  const todoTitle = modal.querySelector('#todo-title');
+  const todoDescription = modal.querySelector('#todo-description');
+  const todoDueDate = modal.querySelector('#todo-due-date');
+  const todoPriority = modal.querySelector('#todo-priority');
+  const todoNotes = modal.querySelector('#todo-notes');
+  const todoProject = modal.querySelector('#todo-project');
+  const todoComplete = modal.querySelector('#todo-complete');
+
+  if (todoTitle) todoTitle.value = '';
+  if (todoDescription) todoDescription.value = '';
+  if (todoDueDate) todoDueDate.value = '';
+  if (todoPriority) todoPriority.value = '1';
+  if (todoNotes) todoNotes.value = '';
+  if (todoComplete) todoComplete.checked = false;
+
+  const defaultProjectId = preferredProjectId || TodoApp.getCurrentProjectId();
+  if (todoProject && defaultProjectId) {
+    todoProject.value = defaultProjectId;
+  }
+}
+
+function refreshTodoProjectOptions(modal) {
+  const todoProject = modal.querySelector('#todo-project');
+  if (!todoProject) return;
+  todoProject.innerHTML = '';
+  const projects = TodoApp.getProjects;
+  projects.forEach(project => {
+    const option = document.createElement('option');
+    option.value = project.id;
+    option.textContent = project.title;
+    todoProject.appendChild(option);
+  });
 }
 
 function modalColorSelectionRemover(colorSelector) {
