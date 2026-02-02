@@ -2,6 +2,13 @@ import { TodoApp } from './app.js';
 import { DEFAULT_PROJECT_ID, CATPUCCIN_COLORS } from './constants.js';
 
 window.TodoApp = TodoApp; // TODO: Remove after debugging
+TodoApp.addTodo({
+  title: 'Test Todo',
+  description: 'Testing the update method',
+  dueDate: '2026-02-15',
+  priority: 5,
+  notes: 'Some notes'
+});
 
 // add default project
 TodoApp.addProject({
@@ -15,12 +22,13 @@ export function RenderApp() {
   const projectModal = createProjectModal();
   const todoModal = createTodoModal();
   const sidebar = createSidebar();
+  const mainContent = createMainContent();
 
   app.appendChild(projectModal);
   app.appendChild(todoModal);
   app.appendChild(createHeader());
   app.appendChild(sidebar);
-  app.appendChild(createMainContent());
+  app.appendChild(mainContent);
 
   sidebar.addEventListener('click', (event) => {
     if (event.target.classList.contains('add-project-btn')) {
@@ -49,7 +57,7 @@ export function RenderApp() {
       showModal(todoModal);
     }
   });
-  renderTodoList(TodoApp.getTodos);
+  renderTodoList(mainContent, TodoApp.getTodos);
 }
 
 function createHeader() {
@@ -393,6 +401,47 @@ function showModal(modalElement) {
   modalElement.classList.add('show');
 }
 
-function renderTodoList(todos) {
-  return null;
+function renderTodoList(mainContentElement, todos) {
+  todos.forEach(todo => {
+    const todoCard = createTodoCard(todo);
+    mainContentElement.appendChild(todoCard);
+  })
+}
+
+function createTodoCard(todo) {
+
+  const todoCardElement = document.createElement('div');
+  todoCardElement.className = 'todo-card';
+  const status = document.createElement('span');
+  status.className = 'todo-status';
+  const title = document.createElement('p');
+  title.className = 'todo-title';
+  title.textContent = todo.title;
+  const dueDate = document.createElement('span');
+  dueDate.className = 'todo-due-date';
+  dueDate.textContent = todo.dueDate ? todo.dueDate : '';
+  const priority = document.createElement('span');
+  priority.className = 'todo-priority';
+  priority.textContent = String(todo.priority ?? '');
+  const actions = document.createElement('div');
+  actions.className = 'todo-actions';
+  const toggleCompleteBtn = document.createElement('button');
+  toggleCompleteBtn.className = 'todo-toggle-complete-btn';
+  toggleCompleteBtn.type = 'button';
+  toggleCompleteBtn.textContent = todo.isComplete ? 'Mark Incomplete' : 'Mark Complete';
+
+  const editBtn = document.createElement('button');
+  editBtn.className = 'todo-edit-btn';
+  editBtn.type = 'button';
+  editBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>note-edit-outline</title><path d="M18.13 12L19.39 10.74C19.83 10.3 20.39 10.06 21 10V9L15 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H11V19.13L11.13 19H5V5H12V12H18.13M14 4.5L19.5 10H14V4.5M19.13 13.83L21.17 15.87L15.04 22H13V19.96L19.13 13.83M22.85 14.19L21.87 15.17L19.83 13.13L20.81 12.15C21 11.95 21.33 11.95 21.53 12.15L22.85 13.47C23.05 13.67 23.05 14 22.85 14.19Z" /></svg>';
+
+  actions.appendChild(toggleCompleteBtn);
+  actions.appendChild(editBtn);
+  todoCardElement.appendChild(status);
+  todoCardElement.appendChild(title);
+  todoCardElement.appendChild(dueDate);
+  todoCardElement.appendChild(priority);
+  todoCardElement.appendChild(actions);
+
+  return todoCardElement;
 }

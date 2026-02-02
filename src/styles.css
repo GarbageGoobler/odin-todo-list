@@ -514,3 +514,10 @@ header h1:hover {
     max-width: 350px;
   }
 }
+
+.todo-card {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
