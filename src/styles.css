@@ -182,27 +182,50 @@ header h1:hover {
   transform: translateY(0);
 }
 
-.main {
-  grid-row: 1 / -1;
+.main-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  align-items: stretch;
+  gap: 1rem;
   padding: 2rem;
   background-color: #1e1e2e;
 }
 
-.main p {
-  color: #cdd6f4;
-  font-size: 1.5rem;
-  font-weight: 300;
-  opacity: 0.6;
-  transition: all 0.3s ease;
+.todo-list-header {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1.4fr) minmax(0, 0.8fr) minmax(0, 0.6fr) minmax(0, 0.8fr);
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  background: linear-gradient(90deg, #2a2d3f 0%, #343854 60%, #2a2d3f 100%);
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
-.main p:hover {
-  opacity: 1;
-  color: #b4befe;
+.todo-header-status {
+  width: 10px;
+  height: 10px;
+}
+
+.todo-header-title {
+  color: #f9e2af;
+}
+
+.todo-header-due-date {
+  color: #89b4fa;
+}
+
+.todo-header-priority {
+  color: #a6e3a1;
+}
+
+.todo-header-options {
+  color: #f38ba8;
 }
 
 /* ========== MODAL STYLES ========== */
@@ -517,7 +540,7 @@ header h1:hover {
 
 .todo-card {
   display: grid;
-  grid-template-columns: 10px 1.4fr 0.9fr 0.5fr auto;
+  grid-template-columns: 10px minmax(0, 1.4fr) minmax(0, 0.9fr) minmax(0, 0.5fr) minmax(0, 0.9fr);
   align-items: center;
   gap: 1rem;
   width: 100%;
@@ -621,6 +644,22 @@ header h1:hover {
 }
 
 @media (max-width: 900px) {
+  .todo-list-header {
+    grid-template-columns: 8px 1fr;
+    row-gap: 0.5rem;
+  }
+
+  .todo-header-status {
+    grid-row: 1 / -1;
+    height: 100%;
+  }
+
+  .todo-header-due-date,
+  .todo-header-priority,
+  .todo-header-options {
+    grid-column: 2;
+  }
+
   .todo-card {
     grid-template-columns: 8px 1fr;
     grid-template-rows: auto auto auto;

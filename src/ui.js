@@ -82,7 +82,43 @@ function createSidebar() {
 
 function createMainContent() {
   const main = document.createElement('main');
+  main.className = 'main-content';
+  const contentHeader = makeContentHeader();
+  main.appendChild(contentHeader);
   return main;
+}
+
+function makeContentHeader() {
+  const header = document.createElement('div');
+  header.className = 'todo-list-header';
+
+  const status = document.createElement('span');
+  status.className = 'todo-header-status';
+  status.setAttribute('aria-hidden', 'true');
+
+  const title = document.createElement('span');
+  title.className = 'todo-header-title';
+  title.textContent = 'Title';
+
+  const dueDate = document.createElement('span');
+  dueDate.className = 'todo-header-due-date';
+  dueDate.textContent = 'Due Date';
+
+  const priority = document.createElement('span');
+  priority.className = 'todo-header-priority';
+  priority.textContent = 'Priority';
+
+  const options = document.createElement('span');
+  options.className = 'todo-header-options';
+  options.textContent = 'Options';
+
+  header.appendChild(status);
+  header.appendChild(title);
+  header.appendChild(dueDate);
+  header.appendChild(priority);
+  header.appendChild(options);
+
+  return header;
 }
 
 function changeSidebarBorder(color) {
