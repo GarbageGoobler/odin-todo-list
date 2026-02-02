@@ -2,19 +2,10 @@ import { TodoApp } from './app.js';
 import ggImage from './gg.png';
 import { DEFAULT_PROJECT_ID, CATPUCCIN_COLORS } from './constants.js';
 
-window.TodoApp = TodoApp; // TODO: Remove after debugging
-TodoApp.addTodo({
-  title: 'Test Todo',
-  description: 'Testing the update method',
-  dueDate: '2026-02-15',
-  priority: 1,
-  notes: 'Some notes'
-});
-
 // add default project
 TodoApp.addProject({
   id: DEFAULT_PROJECT_ID,
-  title: 'All Projects',
+  title: 'Unmarked Projects',
   color: CATPUCCIN_COLORS[0]});
 
 export function RenderApp() {
@@ -40,7 +31,7 @@ export function RenderApp() {
     const todoId = todoCard.dataset.todoId;
     if (!todoId) return;
 
-    const action = event.target.classList;
+    const action = event.target.closest('button').classList;
       
     if (action.contains('todo-toggle-complete-btn')) {
       const isComplete = TodoApp.toggleTodoComplete(todoId).isComplete;
