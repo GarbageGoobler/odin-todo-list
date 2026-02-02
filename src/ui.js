@@ -320,6 +320,7 @@ function createTodoModal() {
   todoTitle.placeholder = 'Todo title...';
   todoTitle.className = 'todo-input';
   todoTitle.id = 'todo-title';
+  todoTitle.maxLength = 50;
   
   const descriptionLabel = document.createElement('label');
   descriptionLabel.textContent = 'Description:';
@@ -576,12 +577,17 @@ function showModal(modalElement) {
 }
 
 function renderTodoList(todos) {
+  // sort todos so completed ones are at the end
+  const sortedTodos = [...todos].sort((a,b) => {
+    if (a.isComplete === b.isComplete) return 0;
+    return a.isComplete ? 1 : -1;
+  });
   const mainContentElement = document.querySelector('.main-content');
   mainContentElement.innerHTML = '';
   const contentHeader = makeContentHeader();
   mainContentElement.appendChild(contentHeader);
 
-  todos.forEach(todo => {
+  sortedTodos.forEach(todo => {
     const todoCard = createTodoCard(todo);
     mainContentElement.appendChild(todoCard);
   })
