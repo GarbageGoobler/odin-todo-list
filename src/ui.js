@@ -405,7 +405,13 @@ function createTodoModal() {
   createBtn.textContent = 'Create Todo';
   createBtn.className = 'create-project-btn';
   createBtn.type = 'button';
-  modalContent.appendChild(createBtn);
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Delete Todo';
+  deleteBtn.className = 'delete-todo-btn';
+  deleteBtn.type = 'button';
+  deleteBtn.disabled = true;
+  deleteBtn.setAttribute('aria-hidden', 'true');
 
   createBtn.addEventListener('click', () => {
     const title = todoTitle.value.trim();
@@ -439,6 +445,22 @@ function createTodoModal() {
     }
     renderTodoList(TodoApp.getTodosByProjectId(selectedProjectId));
   });
+
+  deleteBtn.addEventListener('click', () => {
+    const todoId = modal.dataset.todoId;
+    if (!todoId) return;
+    TodoApp.deleteTodo(todoId);
+    const selectedProjectId =
+      modal.querySelector('#todo-project')?.value || TodoApp.getCurrentProjectId();
+    resetTodoModal(modal, selectedProjectId);
+    hideModal(modal);
+    TodoApp.setCurrentProjectId(selectedProjectId);
+    const selector = document.querySelector('#project-selector');
+    if (selector) {
+      selector.value = selectedProjectId;
+    }
+    renderTodoList(TodoApp.getTodosByProjectId(selectedProjectId));
+  });
   
   modalContent.appendChild(title);
   modalContent.appendChild(titleLabel);
@@ -456,6 +478,7 @@ function createTodoModal() {
   modalContent.appendChild(isCompleteLabel);
   modalContent.appendChild(todoComplete);
   modalContent.appendChild(createBtn);
+  modalContent.appendChild(deleteBtn);
   
   modal.appendChild(modalContent);
   return modal;
@@ -464,6 +487,11 @@ function createTodoModal() {
 function setupTodoModalForCreate(modal) {
   refreshTodoProjectOptions(modal);
   resetTodoModal(modal);
+  const deleteBtn = modal.querySelector('.delete-todo-btn');
+  if (deleteBtn) {
+    deleteBtn.disabled = true;
+    deleteBtn.setAttribute('aria-hidden', 'true');
+  }
 }
 
 function setupTodoModalForEdit(modal, todo) {
@@ -471,8 +499,13 @@ function setupTodoModalForEdit(modal, todo) {
   modal.dataset.todoId = todo.id;
   const modalTitle = modal.querySelector('h2');
   const submitBtn = modal.querySelector('.create-project-btn');
+  const deleteBtn = modal.querySelector('.delete-todo-btn');
   if (modalTitle) modalTitle.textContent = 'Edit Todo';
   if (submitBtn) submitBtn.textContent = 'Save Changes';
+  if (deleteBtn) {
+    deleteBtn.disabled = false;
+    deleteBtn.removeAttribute('aria-hidden');
+  }
 
   const todoTitle = modal.querySelector('#todo-title');
   const todoDescription = modal.querySelector('#todo-description');
@@ -495,8 +528,13 @@ function resetTodoModal(modal, preferredProjectId = '') {
   modal.dataset.todoId = '';
   const modalTitle = modal.querySelector('h2');
   const submitBtn = modal.querySelector('.create-project-btn');
+  const deleteBtn = modal.querySelector('.delete-todo-btn');
   if (modalTitle) modalTitle.textContent = 'Add New Todo';
   if (submitBtn) submitBtn.textContent = 'Create Todo';
+  if (deleteBtn) {
+    deleteBtn.disabled = true;
+    deleteBtn.setAttribute('aria-hidden', 'true');
+  }
 
   const todoTitle = modal.querySelector('#todo-title');
   const todoDescription = modal.querySelector('#todo-description');

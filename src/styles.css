@@ -408,6 +408,40 @@ header h1:hover {
   transform: translateY(0);
 }
 
+.delete-todo-btn {
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e1e2e;
+  background: linear-gradient(90deg, #fab387 0%, #f38ba8 55%, #eba0ac 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.delete-todo-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(251, 179, 135, 0.35);
+  background: linear-gradient(90deg, #ffc39f 0%, #f48d98 55%, #f5b1b7 100%);
+}
+
+.delete-todo-btn:active {
+  transform: translateY(0);
+}
+
+.delete-todo-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.delete-todo-btn[aria-hidden="true"] {
+  display: none;
+}
+
 .todo-modal {
   position: fixed;
   top: 0;
