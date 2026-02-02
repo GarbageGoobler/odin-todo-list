@@ -51,6 +51,25 @@ header h1:hover {
   transform: scale(1.02);
 }
 
+.header-image {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, #b4befe 0%, #cba6f7 50%, #f5c2e7 100%);
+  padding: 2px;
+  box-shadow: 0 4px 16px rgba(180, 190, 254, 0.3);
+  transition: all 0.3s ease;
+  margin-right: 1rem;
+}
+
+.header-image:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 6px 24px rgba(203, 166, 247, 0.4), 0 0 20px rgba(180, 190, 254, 0.2);
+  border-color: #b4befe;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;

@@ -1,4 +1,5 @@
 import { TodoApp } from './app.js';
+import ggImage from './gg.png';
 import { DEFAULT_PROJECT_ID, CATPUCCIN_COLORS } from './constants.js';
 
 window.TodoApp = TodoApp; // TODO: Remove after debugging
@@ -66,6 +67,12 @@ function createHeader() {
   const title = document.createElement('h1');
   title.textContent = "GarbageGoobler's Todo Gobbler"
 
+  const headerImage = document.createElement('img');
+  headerImage.src = ggImage;
+  headerImage.alt = 'Logo';
+  headerImage.className = 'header-image';
+
+  header.appendChild(headerImage);
   header.appendChild(title);
   return header;
 }
