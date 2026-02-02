@@ -473,7 +473,7 @@ function createTodoCard(todo) {
   title.textContent = todo.title;
   const dueDate = document.createElement('span');
   dueDate.className = 'todo-due-date';
-  dueDate.textContent = todo.dueDate ? todo.dueDate : '';
+  dueDate.textContent = todo.dueDate ? todo.dueDate : 'Not Set';
 
   const priority = document.createElement('span');
   priority.className = 'todo-priority';
