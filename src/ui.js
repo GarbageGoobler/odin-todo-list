@@ -6,7 +6,7 @@ TodoApp.addTodo({
   title: 'Test Todo',
   description: 'Testing the update method',
   dueDate: '2026-02-15',
-  priority: 5,
+  priority: 1,
   notes: 'Some notes'
 });
 
@@ -410,19 +410,29 @@ function renderTodoList(mainContentElement, todos) {
 
 function createTodoCard(todo) {
 
+  const project = TodoApp.getProjectById(todo.projectId);
+
   const todoCardElement = document.createElement('div');
   todoCardElement.className = 'todo-card';
   const status = document.createElement('span');
   status.className = 'todo-status';
+  status.style.backgroundColor = project?.color || CATPUCCIN_COLORS[0];
   const title = document.createElement('p');
   title.className = 'todo-title';
   title.textContent = todo.title;
   const dueDate = document.createElement('span');
   dueDate.className = 'todo-due-date';
   dueDate.textContent = todo.dueDate ? todo.dueDate : '';
+
   const priority = document.createElement('span');
   priority.className = 'todo-priority';
-  priority.textContent = String(todo.priority ?? '');
+  const priorityValue = Number(todo.priority ?? 1);
+  const t = Math.min(Math.max((priorityValue - 1) / 9, 0), 1);
+  const priorityColor = lerpColor('#a6e3a1', '#f38ba8', t);
+  priority.style.color = priorityColor;
+  priority.style.borderColor = priorityColor;
+  priority.textContent = String(priorityValue ?? '');
+
   const actions = document.createElement('div');
   actions.className = 'todo-actions';
   const toggleCompleteBtn = document.createElement('button');
@@ -445,4 +455,19 @@ function createTodoCard(todo) {
   todoCardElement.appendChild(actions);
 
   return todoCardElement;
+}
+
+function lerpColor(startHex, endHex, t) {
+  const s = startHex.replace('#', '');
+  const e = endHex.replace('#', '');
+  const sr = parseInt(s.slice(0, 2), 16);
+  const sg = parseInt(s.slice(2, 4), 16);
+  const sb = parseInt(s.slice(4, 6), 16);
+  const er = parseInt(e.slice(0, 2), 16);
+  const eg = parseInt(e.slice(2, 4), 16);
+  const eb = parseInt(e.slice(4, 6), 16);
+  const r = Math.round(sr + (er - sr) * t);
+  const g = Math.round(sg + (eg - sg) * t);
+  const b = Math.round(sb + (eb - sb) * t);
+  return `rgb(${r}, ${g}, ${b})`;
 }
