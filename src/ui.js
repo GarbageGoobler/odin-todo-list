@@ -43,6 +43,7 @@ export function RenderApp() {
 
       selector.innerHTML = '';
       addProjectsToSelector(selector);
+      renderTodoList(TodoApp.getTodosByProjectId(DEFAULT_PROJECT_ID));
     } else if (event.target.classList.contains('add-todo-btn')) {
       const todoProject = document.querySelector('#todo-project');
       todoProject.innerHTML = '';
@@ -461,7 +462,6 @@ function renderTodoList(todos) {
 function createTodoCard(todo) {
 
   const project = TodoApp.getProjectById(todo.projectId);
-  console.log(project?.color);
 
   const todoCardElement = document.createElement('div');
   todoCardElement.className = 'todo-card';
