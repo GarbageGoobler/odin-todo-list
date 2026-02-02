@@ -461,6 +461,7 @@ function renderTodoList(todos) {
 function createTodoCard(todo) {
 
   const project = TodoApp.getProjectById(todo.projectId);
+  console.log(project?.color);
 
   const todoCardElement = document.createElement('div');
   todoCardElement.className = 'todo-card';
